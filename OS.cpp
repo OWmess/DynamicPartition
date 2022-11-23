@@ -24,8 +24,61 @@ void OS::createPartition() {
         print("请输入作业{}的尾地址>",i);
         cin>>end;
         print("-----------------\n");
+        int size=end-begin;
+        if(!dividePartition(_free, _bind, {begin,end}, firstFit)){
+            print("分配失败！");
+        }
 
+
+    }
+
+}
+
+template<typename Comp>
+bool OS::dividePartition(PTNList &free, PTNList &bind, PTNNode node, Comp comp) {
+    if(divideFree(free, node.size(), comp)){
+        divideBind(bind, node);
+        return true;
+    }
+    return false;
+}
+
+
+
+bool OS::firstFit(PTNNode n1,int size) {
+    return n1.size() > size;
+}
+
+template<typename Comp>
+bool OS::divideFree(PTNList &list, int size, Comp comp) {
+    for(auto it=list.begin(); it != list.end(); it++){
+        if(comp(*it,size)){
+            it->divide(size);
+            return true;
+        }
+    }
+    return false;
+}
+
+void OS::divideBind(PTNList &list, PTNNode node) {
+    auto it=list.begin();
+    for(;it!=list.end();it++){
+        if(it->_begin == node._end) {
+            it->_begin = node._begin;
+            break;
+        }else if(it->_end == node._begin) {
+            it->_end = node._end;
+            break;
+        }
+    }
+    if(it==list.end()){
+        list.push_back(node);
     }
 
 
 }
+
+
+
+
+

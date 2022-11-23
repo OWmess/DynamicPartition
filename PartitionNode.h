@@ -10,17 +10,24 @@ class PartitionNode{
 public:
     PartitionNode()=delete;
     /**
-     * 分区构造函数
+     * 节点构造函数
      * @param begin 首地址
      * @param end   末地址
      */
     PartitionNode(int begin,int end):_begin(begin),_end(end){
         _size=abs(end-begin);
     }
-
-
-
-private:
+    int size() const{
+        return _size;
+    }
+    /**
+     * 缩小节点大小
+     * @param n 占用的大小
+     */
+    void divide(int n){
+        _begin+=n;
+        _size-=n;
+    }
 
     int _begin;
     int _end;
