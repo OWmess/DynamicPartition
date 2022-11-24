@@ -16,28 +16,32 @@ public:
     explicit OS(int maxSize);
     //创建初始分区
     bool createPartition();
+    static bool firstFit(PTNNode n1,int size);
+
+/**
+ *
+ * @tparam Comp
+ * @param _free 空闲区域
+ * @param size 待分配大小
+ * @param comp 分区算法
+ */
+template<typename Comp>
+bool dividePartition(int size, Comp comp);
+
 private:
 
     template<typename Comp>
-    bool divideFree(PTNList &list,int size,Comp comp);
+    bool divideFree(PTNList &list,int size,Comp comp,PTNNode &bindNode);
 
     static void mergeBind(PTNList &list, PTNNode node);
-    /**
-     *
-     * @tparam Comp
-     * @param free 空闲区域
-     * @param node 待分配大小
-     * @param comp 分区算法
-     */
-    template<typename Comp>
-    bool dividePartition(PTNList &free, PTNList &bind, PTNNode node, Comp comp);
+
     /**
      * 初始化分区
      * @param initList 代填入节点表
      * @return 错误返回false
      */
     bool initPartition(PTNList initList);
-    static bool firstFit(PTNNode n1,int size);
+
 
 
 

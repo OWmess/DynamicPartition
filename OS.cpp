@@ -38,9 +38,10 @@ bool OS::createPartition() {
 }
 
 template<typename Comp>
-bool OS::dividePartition(PTNList &free, PTNList &bind, PTNNode node, Comp comp) {
-    if(divideFree(free, node.size(), comp)){
-        mergeBind(bind, node);
+bool OS::dividePartition(int size, Comp comp) {
+    PTNNode bindNode{0,0};
+    if(divideFree(_free, size, comp,bindNode)){
+        mergeBind(_bind, bindNode);
         return true;
     }
     return false;
@@ -51,9 +52,10 @@ bool OS::firstFit(PTNNode n1,int size) {
 }
 
 template<typename Comp>
-bool OS::divideFree(PTNList &list, int size, Comp comp) {
+bool OS::divideFree(PTNList &list, int size, Comp comp,PTNNode &bindNode) {
     for(auto it=list.begin(); it != list.end(); it++){
         if(comp(*it,size)){
+            bindNode={it->_begin,it->_begin+size};
             it->divide(size);
             return true;
         }
@@ -99,32 +101,6 @@ bool OS::initPartition(PTNList initList) {
             return false;
 
     }
-
-
-
-//
-//    for(auto initNode:initList){
-//        bool state=false;
-//        for(auto &freeNode:_free){
-//            if(firstFit(freeNode,initNode.size())&&freeNode._begin<=initNode._begin&&freeNode._end>=initNode._end) {
-//                auto tmp = freeNode;
-//                //分离空闲表
-//                int state=freeNode.divideNode(initNode);
-//                if(state==0)
-//                    _free.erase(initNode);
-//                if (state == 3) {
-//                    _free.push_back({tmp._begin, initNode._begin - 1});
-//                }
-//                //添加占用表
-//                mergeBind(_bind, initNode);
-//                state=true;
-//            }
-//        }
-//        if(!state)
-//            return false;
-//    }
-
-
 
     return true;
 

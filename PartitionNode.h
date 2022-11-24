@@ -6,7 +6,7 @@
 #ifndef DYNAMICPARITION_PARTITIONNODE_H
 #define DYNAMICPARITION_PARTITIONNODE_H
 
-#define JUDGE_SIZE(size) if(size==0) return 0;
+#define JUDGE_SIZE(SIZE) if(SIZE==0) return 0
 
 class PartitionNode{
 public:
