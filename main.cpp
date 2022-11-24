@@ -9,10 +9,17 @@
 using namespace std;
 
 int main(){
-    OS os(MAXSIZE);
-    os.createPartition();
 
 
+    start:
+    {
+        OS os(MAXSIZE);
+
+        if(!os.createPartition())
+            goto start;
+
+
+    }
 
     return 0;
 }
