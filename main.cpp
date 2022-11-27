@@ -28,7 +28,9 @@ int main(){
             print("请输入要采用的算法:\n1.最先适应分配\n2.下次适应分配\n3.最优适应分配\n4.最坏适应分配\n5.快速适应分配");
             cin>>choose;
             switch(choose){
-                case 1:os.dividePartition(200,OS::firstFit);
+                case 1:
+                    os.dividePartition(200,FIRST_FIT);
+                    break;
                 case 2:break;
                 case 3:break;
                 case 4:break;
