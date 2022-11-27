@@ -6,24 +6,25 @@
 
 #include "PartitionNode.h"
 
-typedef enum{
-    FIRST_FIT=0,
+typedef enum {
+    FIRST_FIT = 0,
     NEXT_FIT,
     BEST_FIT,
     WORST_FIT,
     QUICK_FIT
-}ALGO;
+} ALGO;
 
 class OS {
 public:
-    OS()=delete;
+    OS() = delete;
+
     /**
      * @param maxSize 分区长度
      */
     explicit OS(int maxSize);
+
     //创建初始分区
     bool createPartition();
-
 
 
 /**
@@ -33,7 +34,7 @@ public:
  * @param comp 分区算法
  */
 
-bool dividePartition(int size,ALGO mode);
+    bool dividePartition(int size, ALGO mode);
 
 private:
 
@@ -55,7 +56,12 @@ private:
 
     bool bestFit(PTNNode &bind, int size);
 
-    bool worstFit(PTNNode &bind, int size)
+    bool worstFit(PTNNode &bind, int size);
+
+    inline void sortList(){
+        _free.sort();
+        _bind.sort();
+    }
 private:
     int _maxSize;
     ///空闲表
@@ -64,6 +70,7 @@ private:
     PTNList _bind;
 
     PTNList::iterator _searchIter;
+
 };
 
 

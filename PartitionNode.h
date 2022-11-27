@@ -19,7 +19,7 @@ public:
     PartitionNode(int begin,int end):_begin(begin),_end(end){
         _size=abs(end-begin);
     }
-    int size() const{
+    [[nodiscard]] int size() const{
         return _size;
     }
     /**
@@ -63,7 +63,6 @@ public:
         }
     }
 
-
     /**
      * 缩小节点大小
      * @param n 占用的大小
@@ -73,6 +72,9 @@ public:
         _size-=n;
     }
 
+    bool operator <(PartitionNode node2) const{
+        return this->_begin<node2._begin;
+    }
     int _begin;
     int _end;
     int _size;

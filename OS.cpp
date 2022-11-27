@@ -4,33 +4,34 @@
 
 #include "OS.h"
 #include <iostream>
-#include <fmt/format.h>
+#include <limits>
 using namespace std;
-using namespace fmt;
-OS::OS(int maxSize):_maxSize(maxSize-1) {
-    _free.push_back({0,maxSize});
-    _bind.push_back({0,0});
+
+OS::OS(int maxSize) : _maxSize(maxSize - 1) {
+    _free.push_back({0, _maxSize});
+    _bind.push_back({0, 0});
 }
 
 bool OS::createPartition() {
     int existTask;
     PTNList initList;
-    print("请输入已装入的作业数>");
-    cin>>existTask;
-    if(existTask==0)
+    cout<<"请输入已装入的作业数>";
+    cin >> existTask;
+    if (existTask == 0)
         return true;
-    for(int i=0;i<existTask;i++){
+    for (int i = 0; i < existTask; i++) {
         int begin;
         int end;
-        print("请输入作业{}的首地址>",i);
-        cin>>begin;
-        print("请输入作业{}的尾地址>",i);
-        cin>>end;
-        print("-----------------\n");
-        initList.push_back({begin,end});
+        cout<<"请输入作业"<<i<<"的首地址>";
+        cin >> begin;
+        cout<<"请输入作业"<<i<<"的尾地址>";
+        cin >> end;
+        cout<<"-----------------"<<endl;
+        initList.push_back({begin, end});
     }
-    if(!initPartition(initList)){
-        print("输入的作业地址有误,地址最大值为{}\n",_maxSize);
+
+    if (!initPartition(initList)) {
+        cout<<"输入的作业地址有误,地址最大值为 "<< _maxSize<<endl;
         return false;
     }
 
@@ -40,8 +41,8 @@ bool OS::createPartition() {
 
 bool OS::dividePartition(int size, ALGO mode) {
 
-    PTNNode bindNode{0,0};
-    if(divideFree(size, mode,bindNode)){
+    PTNNode bindNode{0, 0};
+    if (divideFree(size, mode, bindNode)) {
         mergeBind(_bind, bindNode);
         return true;
     }
@@ -49,19 +50,19 @@ bool OS::dividePartition(int size, ALGO mode) {
 }
 
 bool OS::divideFree(int size, ALGO mode, PTNNode &bindNode) {
-    bool divideFlag=false;
-    switch(mode){
+    bool divideFlag = false;
+    switch (mode) {
         case FIRST_FIT:
-            divideFlag = firstFit(bindNode,size);
+            divideFlag = firstFit(bindNode, size);
             break;
         case NEXT_FIT:
-            divideFlag=nextFit(bindNode,size);
+            divideFlag = nextFit(bindNode, size);
             break;
         case BEST_FIT:
-            divideFlag=bestFit(bindNode,size);
+            divideFlag = bestFit(bindNode, size);
             break;
         case WORST_FIT:
-            divideFlag= worstFit(bindNode,size);
+            divideFlag = worstFit(bindNode, size);
             break;
         case QUICK_FIT:
             break;
@@ -74,52 +75,58 @@ bool OS::divideFree(int size, ALGO mode, PTNNode &bindNode) {
 }
 
 void OS::mergeBind(PTNList &list, PTNNode node) {
-    auto it=list.begin();
-    for(;it!=list.end();it++){
-        if(it->mergeNode(node))
+    auto it = list.begin();
+    for (; it != list.end(); it++) {
+        if (it->mergeNode(node))
             break;
     }
-    if(it==list.end()){
+    if (it == list.end()) {
         list.push_back(node);
     }
 
 }
 
 bool OS::initPartition(PTNList initList) {
-    auto initNode=initList.begin();
-    auto freeNode=_free.begin();
+    auto initNode = initList.begin();
+    auto freeNode = _free.begin();
 
-    for(;initNode!=initList.end();initNode++){
-        for(;freeNode!=_free.end();freeNode++){
+    for (; initNode != initList.end(); initNode++) {
+        for (; freeNode != _free.end(); freeNode++) {
 
-            if(firstFit(*freeNode,initNode->size())&&freeNode->_begin<=initNode->_begin&&freeNode->_end>=initNode->_end) {
+            if (freeNode->size()>initNode->size() && freeNode->_begin <= initNode->_begin &&
+                freeNode->_end >= initNode->_end) {
+
                 auto tmp = *freeNode;
                 //分离空闲表
-                int state=freeNode->divideNode(*initNode);
-                if(state==0)
+                int state = freeNode->divideNode(*initNode);
+                if (state == 0)
                     _free.erase(freeNode);
                 if (state == 3) {
                     _free.push_back({tmp._begin, initNode->_begin - 1});
                 }
                 //添加占用表
                 mergeBind(_bind, *initNode);
+
                 break;
             }
         }
-        freeNode=_free.begin();
-        if(freeNode==_free.end())
+        freeNode = _free.begin();
+        if (freeNode == _free.end())
             return false;
     }
+    sortList();
     return true;
 
 }
 
 bool OS::firstFit(PTNNode &bind, int size) {
-    for(auto it=_free.begin(); it != _free.end(); it++){
-        if(it->size()>size){
-            bind={it->_begin,it->_begin+size};
+    for (auto it = _free.begin(); it != _free.end(); it++) {
+
+        if (it->size() > size) {
+            bind = {it->_begin, it->_begin + size};
             it->divide(size);
-            _searchIter=it;
+            _searchIter = it;
+
             return true;
         }
     }
@@ -127,21 +134,21 @@ bool OS::firstFit(PTNNode &bind, int size) {
 }
 
 bool OS::nextFit(PTNNode &bind, int size) {
-    auto rootIter=_searchIter;
-    auto tmpIter=_searchIter;
-    while(true){
-        if(tmpIter==_free.end()){
-            tmpIter=_free.begin();
+    auto rootIter = _searchIter;
+    auto tmpIter = _searchIter;
+    while (true) {
+        if (tmpIter == _free.end()) {
+            tmpIter = _free.begin();
         }
         //TODO 先暂时从上次iter开始搜索
-        if(tmpIter->size()>size){
-            bind={tmpIter->_begin,tmpIter->_begin+size};
+        if (tmpIter->size() > size) {
+            bind = {tmpIter->_begin, tmpIter->_begin + size};
             tmpIter->divide(size);
-            _searchIter=tmpIter;
+            _searchIter = tmpIter;
             return true;
         }
         tmpIter++;
-        if(tmpIter==rootIter){
+        if (tmpIter == rootIter) {
             break;
         }
     }
@@ -149,40 +156,40 @@ bool OS::nextFit(PTNNode &bind, int size) {
     return false;
 }
 
-bool OS::bestFit(PTNNode &bind, int size){
-    const int MAX=std::numeric_limits<int>::max();
-    int max=MAX;
-    PTNList::iterator minNodeIter=_searchIter;
+bool OS::bestFit(PTNNode &bind, int size) {
+    const int MAX = std::numeric_limits<int>::max();
+    int max = MAX;
+    PTNList::iterator minNodeIter = _searchIter;
 
-    for(auto iter=_free.begin();iter!=_free.end();iter++){
-        if(iter->size()>size&&iter->size()<max){
-            max=iter->size();
-            minNodeIter=iter;
+    for (auto iter = _free.begin(); iter != _free.end(); iter++) {
+        if (iter->size() > size && iter->size() < max) {
+            max = iter->size();
+            minNodeIter = iter;
         }
     }
-    if(max==MAX){
+    if (max == MAX) {
         return false;
     }
-    bind={*minNodeIter};
+    bind = {*minNodeIter};
     return true;
 
 }
 
-bool OS::worstFit(PTNNode &bind, int size){
-    const int MIN=0;
-    int min=MIN;
-    PTNList::iterator maxNodeIter=_searchIter;
+bool OS::worstFit(PTNNode &bind, int size) {
+    const int MIN = 0;
+    int min = MIN;
+    PTNList::iterator maxNodeIter = _searchIter;
 
-    for(auto iter=_free.begin();iter!=_free.end();iter++){
-        if(iter->size()>size&& iter->size() > min){
-            min=iter->size();
-            maxNodeIter=iter;
+    for (auto iter = _free.begin(); iter != _free.end(); iter++) {
+        if (iter->size() > size && iter->size() > min) {
+            min = iter->size();
+            maxNodeIter = iter;
         }
     }
-    if(min == MIN){
+    if (min == MIN) {
         return false;
     }
-    bind={*maxNodeIter};
+    bind = {*maxNodeIter};
     return true;
 
 }
