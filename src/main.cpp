@@ -13,8 +13,8 @@ using namespace std;
 int main(int argc, char *argv[]){
 
     QApplication a(argc, argv);
-    OS *os=new OS(MAXSIZE);
-    Widget w(os);
+    std::shared_ptr<OS> os(new OS(MAXSIZE));
+    Widget w(os.get());
     w.show();
     return a.exec();
 

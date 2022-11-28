@@ -17,6 +17,17 @@ public:
 
     ~BindDialog();
 
+private slots:
+    void firstFitSlot();
+
+    void nextFitSlot();
+
+    void bestFitSlot();
+
+    void worstFitSlot();
+
+    void quickFitSlot();
+
 private:
     Ui::BindDialog *_ui;
     OS *_os;

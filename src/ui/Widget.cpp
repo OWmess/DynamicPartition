@@ -28,17 +28,17 @@ Widget::~Widget()
 }
 
 void Widget::initDialog() {
-    auto *dialog = new InitDialog(this);
+    auto *dialog = new InitDialog(_os,this);
     exec(dialog);
 }
 
 void Widget::bindDialog() {
-    auto *dialog=new BindDialog(this);
+    auto *dialog=new BindDialog(_os,this);
     exec(dialog);
 }
 
 void Widget::freeDialog() {
-    auto *dialog=new FreeDialog(this);
+    auto *dialog=new FreeDialog(_os,this);
     exec(dialog);
 }
 

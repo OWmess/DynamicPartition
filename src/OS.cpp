@@ -5,6 +5,7 @@
 #include "OS.h"
 #include <iostream>
 #include <limits>
+#include <QDebug>
 using namespace std;
 
 OS::OS(int maxSize) : _maxSize(maxSize - 1) {
@@ -12,26 +13,12 @@ OS::OS(int maxSize) : _maxSize(maxSize - 1) {
     _bind.push_back({0, 0});
 }
 
-bool OS::createPartition() {
-    int existTask;
-    PTNList initList;
-    cout<<"请输入已装入的作业数>";
-    cin >> existTask;
-    if (existTask == 0)
-        return true;
-    for (int i = 0; i < existTask; i++) {
-        int begin;
-        int end;
-        cout<<"请输入作业"<<i<<"的首地址>";
-        cin >> begin;
-        cout<<"请输入作业"<<i<<"的尾地址>";
-        cin >> end;
-        cout<<"-----------------"<<endl;
-        initList.push_back({begin, end});
-    }
+bool OS::createPartition(int start,int end) {
 
-    if (!initPartition(initList)) {
-        cout<<"输入的作业地址有误,地址最大值为 "<< _maxSize<<endl;
+    PTNList list;
+    list.push_back({start,end});
+    if (!initPartition(list)) {
+        qDebug()<<"输入的作业地址有误,地址最大值为 "<< _maxSize<<Qt::endl;
         return false;
     }
 
@@ -88,6 +75,7 @@ void OS::mergeBind(PTNList &list, PTNNode node) {
 
 bool OS::initPartition(PTNList initList) {
     auto initNode = initList.begin();
+
     auto freeNode = _free.begin();
 
     for (; initNode != initList.end(); initNode++) {
@@ -110,9 +98,10 @@ bool OS::initPartition(PTNList initList) {
                 break;
             }
         }
-        freeNode = _free.begin();
         if (freeNode == _free.end())
             return false;
+        freeNode = _free.begin();
+
     }
     sortList();
     return true;

@@ -6,6 +6,8 @@ FreeDialog::FreeDialog(QWidget *parent) :
         _ui(new Ui::FreeDialog)
 {
     _ui->setupUi(this);
+
+
 }
 
 FreeDialog::~FreeDialog()

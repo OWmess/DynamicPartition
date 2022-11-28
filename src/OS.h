@@ -24,7 +24,7 @@ public:
     explicit OS(int maxSize);
 
     //创建初始分区
-    bool createPartition();
+    bool createPartition(int start,int end);
 
 
 /**
