@@ -13,7 +13,8 @@ using namespace std;
 int main(int argc, char *argv[]){
 
     QApplication a(argc, argv);
-    Widget w;
+    OS *os=new OS(MAXSIZE);
+    Widget w(os);
     w.show();
     return a.exec();
 

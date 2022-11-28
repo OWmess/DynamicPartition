@@ -2,7 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
-
+#include "../OS.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
@@ -13,6 +13,7 @@ class Widget : public QWidget
 
 public:
     explicit Widget(QWidget *parent = nullptr);
+    Widget(OS *os,QWidget *parent = nullptr);
     ~Widget();
 
 private:
@@ -30,6 +31,7 @@ private slots:
 
     void freeDialog();
 private:
-    Ui::Widget *ui;
+    Ui::Widget *_ui;
+    OS *_os;
 };
 #endif // WIDGET_H

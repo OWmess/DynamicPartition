@@ -2,13 +2,17 @@
 #include "ui_FreeDialog.h"
 
 FreeDialog::FreeDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::FreeDialog)
+        QDialog(parent),
+        _ui(new Ui::FreeDialog)
 {
-    ui->setupUi(this);
+    _ui->setupUi(this);
 }
 
 FreeDialog::~FreeDialog()
 {
-    delete ui;
+    delete _ui;
+}
+
+FreeDialog::FreeDialog(OS *os, QWidget *parent):FreeDialog(parent) {
+    _os=os;
 }

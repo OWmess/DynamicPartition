@@ -2,7 +2,7 @@
 #define INITDIALOG_H
 
 #include <QDialog>
-
+#include "../OS.h"
 namespace Ui {
 class InitDialog;
 }
@@ -13,10 +13,12 @@ class InitDialog : public QDialog
 
 public:
     explicit InitDialog(QWidget *parent = nullptr);
+    InitDialog(OS *os,QWidget *parent = nullptr);
     ~InitDialog();
 
 private:
-    Ui::InitDialog *ui;
+    Ui::InitDialog *_ui;
+    OS *_os;
 };
 
 #endif // INITDIALOG_H

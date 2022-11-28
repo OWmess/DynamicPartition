@@ -2,13 +2,17 @@
 #include "ui_BindDialog.h"
 
 BindDialog::BindDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::BindDialog)
+        QDialog(parent),
+        _ui(new Ui::BindDialog)
 {
-    ui->setupUi(this);
+    _ui->setupUi(this);
 }
 
 BindDialog::~BindDialog()
 {
-    delete ui;
+    delete _ui;
+}
+
+BindDialog::BindDialog(OS *os, QWidget *parent):BindDialog(parent) {
+    this->_os=os;
 }

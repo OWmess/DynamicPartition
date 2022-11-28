@@ -2,7 +2,7 @@
 #define MAINDIALOG_H
 
 #include <QDialog>
-
+#include "../OS.h"
 namespace Ui {
 class FreeDialog;
 }
@@ -13,10 +13,12 @@ class FreeDialog : public QDialog
 
 public:
     explicit FreeDialog(QWidget *parent = nullptr);
+    FreeDialog(OS *os,QWidget *parent = nullptr);
     ~FreeDialog();
 
 private:
-    Ui::FreeDialog *ui;
+    Ui::FreeDialog *_ui;
+    OS *_os;
 };
 
 #endif // MAINDIALOG_H

@@ -6,21 +6,25 @@
 #include <QPainter>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::Widget)
+    , _ui(new Ui::Widget)
 {
-    ui->setupUi(this);
-    connect(ui->initButton,&QPushButton::clicked,this,&Widget::initDialog);
-    connect(ui->freeButton,&QPushButton::clicked,this,&Widget::freeDialog);
-    connect(ui->bindButton,&QPushButton::clicked,this,&Widget::bindDialog);
+    _ui->setupUi(this);
+    connect(_ui->initButton, &QPushButton::clicked, this, &Widget::initDialog);
+    connect(_ui->freeButton, &QPushButton::clicked, this, &Widget::freeDialog);
+    connect(_ui->bindButton, &QPushButton::clicked, this, &Widget::bindDialog);
 
 
 
 
 }
 
+Widget::Widget(OS *os, QWidget *parent) :Widget(parent){
+    _os=os;
+}
+
 Widget::~Widget()
 {
-    delete ui;
+    delete _ui;
 }
 
 void Widget::initDialog() {
@@ -54,4 +58,8 @@ void Widget::paintEvent(QPaintEvent *) {
     }
 
 }
+
+
+
+
 
