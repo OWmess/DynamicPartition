@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BindDialog</class>
+ <widget class="QDialog" name="BindDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>80</y>
+     <width>150</width>
+     <height>35</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="firstFitButton">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>140</y>
+     <width>110</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>FirstFit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="nextFitButton">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>140</y>
+     <width>110</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>NextFit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="bestFitButton">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>200</y>
+     <width>110</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>BestFit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="worstFitButton">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>200</y>
+     <width>110</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>WorstFit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="quickFitButton">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>260</y>
+     <width>110</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>QuickFit</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>40</y>
+     <width>72</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>size</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -7,7 +7,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 if (WIN32)
-    #    set(CMAKE_PREFIX_PATH "C:/Qt/Qt5.14.2/5.14.2/mingw73_64")
+        set(CMAKE_PREFIX_PATH "C:/Qt/Qt5.14.2/5.14.2/mingw73_64")
 endif ()
 
 find_package(Qt5 COMPONENTS
@@ -16,7 +16,7 @@ find_package(Qt5 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(${PROJECT_NAME} src/main.cpp src/OS.cpp src/ui/Widget.cpp src/ui/Widget.h src/ui/Widget.ui src/ui/InitDialog.cpp src/ui/InitDialog.h src/ui/InitDialog.ui src/ui/MainDialog.cpp src/ui/MainDialog.h src/ui/MainDialog.ui)
+add_executable(${PROJECT_NAME} src/main.cpp src/OS.cpp src/ui/Widget.cpp src/ui/Widget.h src/ui/Widget.ui src/ui/InitDialog.cpp src/ui/InitDialog.h src/ui/InitDialog.ui src/ui/FreeDialog.cpp src/ui/FreeDialog.h src/ui/FreeDialog.ui src/ui/BindDialog.cpp src/ui/BindDialog.h src/ui/BindDialog.ui)
 target_link_libraries(${PROJECT_NAME}
         Qt5::Core
         Qt5::Gui

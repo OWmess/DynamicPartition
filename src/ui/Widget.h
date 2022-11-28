@@ -15,6 +15,14 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 
+private:
+    void paintEvent(QPaintEvent *) override;
+
+    template<class Dialog>
+            inline void exec(Dialog * dialog){
+                dialog->exec();
+                this->update();
+            }
 private slots:
     void initDialog();
 
