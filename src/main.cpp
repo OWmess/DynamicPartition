@@ -8,7 +8,7 @@
 #include "OS.h"
 #include <memory>
 #include "./ui/Widget.h"
-#define MAXSIZE 1000
+#define MAXSIZE 1024
 using namespace std;
 int main(int argc, char *argv[]){
 

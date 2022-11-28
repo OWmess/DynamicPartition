@@ -26,7 +26,13 @@ public:
     //创建初始分区
     bool createPartition(int start,int end);
 
+    [[nodiscard]] PTNList getFree() const{
+        return _free;
+    }
 
+    [[nodiscard]] PTNList getBind() const{
+        return _bind;
+    }
 /**
  *
  * @tparam Comp

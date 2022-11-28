@@ -4,6 +4,7 @@
 #include "BindDialog.h"
 #include "FreeDialog.h"
 #include <QPainter>
+#include <QLabel>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , _ui(new Ui::Widget)
@@ -12,9 +13,6 @@ Widget::Widget(QWidget *parent)
     connect(_ui->initButton, &QPushButton::clicked, this, &Widget::initDialog);
     connect(_ui->freeButton, &QPushButton::clicked, this, &Widget::freeDialog);
     connect(_ui->bindButton, &QPushButton::clicked, this, &Widget::bindDialog);
-
-
-
 
 }
 
@@ -28,34 +26,57 @@ Widget::~Widget()
 }
 
 void Widget::initDialog() {
-    auto *dialog = new InitDialog(_os,this);
-    exec(dialog);
+    exec(new InitDialog(_os,this));
 }
 
 void Widget::bindDialog() {
-    auto *dialog=new BindDialog(_os,this);
-    exec(dialog);
+    exec(new BindDialog(_os,this));
 }
 
 void Widget::freeDialog() {
-    auto *dialog=new FreeDialog(_os,this);
-    exec(dialog);
+    exec(new FreeDialog(_os,this));
 }
 
 void Widget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
-    const int w=512;
-    const int h=200;
-    const int x=150;
-    const int y=25;
-    const int secy=2*y+h;
-    painter.drawRect(x,y,w,h);
-    painter.drawRect(x,secy,w,h);
-    for(int i=1;i<=5;i++) {
-        painter.drawLine(QPoint(x + 100 * i, y), QPoint(x + 100 * i, y + h));
+    const int w=1024;
+    const int h=300;
+    const int x=70;
+    const int y=100;
 
-        painter.drawLine(QPoint(x + 100 * i, secy), QPoint(x + 100 * i, secy + h));
+    const QPoint tl={x, y};
+    const QPoint br={x + w, y + h};
+
+    painter.fillRect(QRect{tl, br}, QBrush(Qt::green));
+    for(const auto free:_os->getFree()){
+        painter.fillRect(QRect{QPoint{x+free._begin,y},QSize{free._size+1,h+1}},QBrush(Qt::darkGray));
     }
+
+
+
+    QFont font;
+    font.setFamily(QString::fromUtf8("Arial"));
+    font.setPointSize(16);
+
+//    label = new QLabel(BindDialog);
+//    label->setObjectName(QString::fromUtf8("label"));
+//    label->setGeometry(QRect(130, 40, 72, 15));
+//    label->setFont(font);
+    //TODO 写成lambda表达式
+    QLabel *label0=new QLabel(this);
+
+    label0->setText(QString::number(0));
+    label0->setGeometry(QRect{x-10,y-50,50,45});
+    label0->setFont(font);
+    label0->show();
+
+    painter.drawRect(QRect{tl, br});
+    for(int i=1;i<=10;i++) {
+
+        painter.drawLine(QPoint(x + 100 * i, y), QPoint(x + 100 * i, y + h));
+    }
+
+
 
 }
 

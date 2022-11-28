@@ -1,5 +1,6 @@
 #include "BindDialog.h"
 #include "ui_BindDialog.h"
+#include "ErrorMessage.h"
 
 BindDialog::BindDialog(QWidget *parent) :
         QDialog(parent),
@@ -23,22 +24,30 @@ BindDialog::BindDialog(OS *os, QWidget *parent):BindDialog(parent) {
 }
 
 void BindDialog::firstFitSlot() {
-    this->close();
+    fitExec(FIRST_FIT);
 }
 
 void BindDialog::nextFitSlot() {
-    this->close();
+    fitExec(NEXT_FIT);
 }
 
 void BindDialog::bestFitSlot() {
-    this->close();
+    fitExec(BEST_FIT);
 }
 
 void BindDialog::worstFitSlot() {
-    this->close();
+    fitExec(WORST_FIT);
 }
 
 void BindDialog::quickFitSlot() {
+    fitExec(QUICK_FIT);
+}
+
+void BindDialog::fitExec(ALGO mode) {
+    int size=_ui->lineEdit->text().toInt();
+    if(!_os->dividePartition(size,mode)){
+        ErrorMessage::msg("分配失败",this);
+    }
     this->close();
 }
 

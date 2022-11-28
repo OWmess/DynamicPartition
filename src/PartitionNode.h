@@ -6,7 +6,7 @@
 #ifndef DYNAMICPARITION_PARTITIONNODE_H
 #define DYNAMICPARITION_PARTITIONNODE_H
 
-#define JUDGE_SIZE(SIZE) if(SIZE==0) return 0
+#define JUDGE_SIZE(SIZE) if(SIZE==1) return 0
 
 class PartitionNode{
 public:
@@ -17,7 +17,7 @@ public:
      * @param end   末地址
      */
     PartitionNode(int begin,int end):_begin(begin),_end(end){
-        _size=abs(end-begin);
+        _size=abs(end-begin)+1;
     }
     [[nodiscard]] int size() const{
         return _size;
@@ -30,11 +30,11 @@ public:
     bool mergeNode(PartitionNode newNode){
         if(this->_begin == newNode._end) {
             this->_begin = newNode._begin;
-            _size=_end-_begin;
+            _size=_end-_begin+1;
             return true;
         }else if(this->_end == newNode._begin) {
             this->_end = newNode._end;
-            _size=_end-_begin;
+            _size=_end-_begin+1;
             return true;
         }
         return false;
@@ -47,17 +47,17 @@ public:
     int divideNode(PartitionNode divideNode){
         if(this->_begin==divideNode._begin){///空闲区在尾段
             this->_begin=divideNode._end+1;
-            _size=_end-_begin;
+            _size=_end-_begin+1;
             JUDGE_SIZE(_size);
             return 1;
         }else if(this->_end==divideNode._end){///空闲区在前段
             this->_end=divideNode._begin-1;
-            _size=_end-_begin;
+            _size=_end-_begin+1;
             JUDGE_SIZE(_size);
             return 2;
         }else{///空闲区在两边
             this->_begin=divideNode._end+1;
-            _size=_end-_begin;
+            _size=_end-_begin+1;
             JUDGE_SIZE(_size);
             return 3;
         }

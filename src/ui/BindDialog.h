@@ -16,7 +16,8 @@ public:
     BindDialog(OS *os,QWidget *parent = nullptr);
 
     ~BindDialog();
-
+private:
+    inline void fitExec(ALGO mode);
 private slots:
     void firstFitSlot();
 
