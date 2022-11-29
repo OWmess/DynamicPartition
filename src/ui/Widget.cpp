@@ -53,29 +53,25 @@ void Widget::paintEvent(QPaintEvent *) {
     }
 
 
+    auto drawNumber=[](int num,int pos,QWidget *parent){
+        auto *label0=new QLabel(parent);
+        QFont font;
+        font.setFamily(QString::fromUtf8("Arial"));
+        font.setPointSize(14);
+        label0->setText(QString::number(num));
+        label0->setGeometry(QRect{x-20+pos,y-50,50,45});
+        label0->setFont(font);
+        label0->show();
 
-    QFont font;
-    font.setFamily(QString::fromUtf8("Arial"));
-    font.setPointSize(16);
+    };
 
-//    label = new QLabel(BindDialog);
-//    label->setObjectName(QString::fromUtf8("label"));
-//    label->setGeometry(QRect(130, 40, 72, 15));
-//    label->setFont(font);
-    //TODO 写成lambda表达式
-    QLabel *label0=new QLabel(this);
-
-    label0->setText(QString::number(0));
-    label0->setGeometry(QRect{x-10,y-50,50,45});
-    label0->setFont(font);
-    label0->show();
-
+    drawNumber(0,0,this);
     painter.drawRect(QRect{tl, br});
     for(int i=1;i<=10;i++) {
-
+        drawNumber(i*100,i*100,this);
         painter.drawLine(QPoint(x + 100 * i, y), QPoint(x + 100 * i, y + h));
     }
-
+    drawNumber(1023,1050,this);
 
 
 }

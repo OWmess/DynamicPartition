@@ -75,7 +75,7 @@ private:
     ///占用表
     PTNList _bind;
 
-    PTNList::iterator _searchIter;
+    PTNList::iterator _searchIter=_free.begin();
 
 };
 
