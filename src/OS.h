@@ -24,15 +24,16 @@ public:
     explicit OS(int maxSize);
 
     //创建初始分区
-    bool createPartition(int start,int end);
+    bool createPartition(int start, int end);
 
-    [[nodiscard]] PTNList getFree() const{
+    [[nodiscard]] PTNList getFree() const {
         return _free;
     }
 
-    [[nodiscard]] PTNList getBind() const{
+    [[nodiscard]] PTNList getBind() const {
         return _bind;
     }
+
 /**
  *
  * @tparam Comp
@@ -64,10 +65,11 @@ private:
 
     bool worstFit(PTNNode &bind, int size);
 
-    inline void sortList(){
+    inline void sortList() {
         _free.sort();
         _bind.sort();
     }
+
 private:
     int _maxSize;
     ///空闲表
@@ -75,7 +77,7 @@ private:
     ///占用表
     PTNList _bind;
 
-    PTNList::iterator _searchIter=_free.begin();
+    PTNList::iterator _searchIter = _free.begin();
 
 };
 

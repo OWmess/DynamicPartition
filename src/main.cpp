@@ -8,9 +8,11 @@
 #include "OS.h"
 #include <memory>
 #include "./ui/Widget.h"
+
 #define MAXSIZE 1024
 using namespace std;
-int main(int argc, char *argv[]){
+
+int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
     std::shared_ptr<OS> os(new OS(MAXSIZE));

@@ -3,17 +3,19 @@
 
 #include <QDialog>
 #include "../OS.h"
+
 namespace Ui {
-class FreeDialog;
+    class FreeDialog;
 }
 
-class FreeDialog : public QDialog
-{
-    Q_OBJECT
+class FreeDialog : public QDialog {
+Q_OBJECT
 
 public:
     explicit FreeDialog(QWidget *parent = nullptr);
-    FreeDialog(OS *os,QWidget *parent = nullptr);
+
+    FreeDialog(OS *os, QWidget *parent = nullptr);
+
     ~FreeDialog();
 
 private:

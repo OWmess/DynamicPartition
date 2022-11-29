@@ -6,6 +6,7 @@
 #include <iostream>
 #include <limits>
 #include <QDebug>
+
 using namespace std;
 
 OS::OS(int maxSize) : _maxSize(maxSize - 1) {
@@ -13,12 +14,12 @@ OS::OS(int maxSize) : _maxSize(maxSize - 1) {
     _bind.push_back({0, 0});
 }
 
-bool OS::createPartition(int start,int end) {
+bool OS::createPartition(int start, int end) {
 
     PTNList list;
-    list.push_back({start,end});
+    list.push_back({start, end});
     if (!initPartition(list)) {
-        qDebug()<<"输入的作业地址有误,地址最大值为 "<< _maxSize<<Qt::endl;
+        qDebug() << "输入的作业地址有误,地址最大值为 " << _maxSize << Qt::endl;
         return false;
     }
 
@@ -81,7 +82,7 @@ bool OS::initPartition(PTNList initList) {
     for (; initNode != initList.end(); initNode++) {
         for (; freeNode != _free.end(); freeNode++) {
 
-            if (freeNode->size()>initNode->size() && freeNode->_begin <= initNode->_begin &&
+            if (freeNode->size() > initNode->size() && freeNode->_begin <= initNode->_begin &&
                 freeNode->_end >= initNode->_end) {
 
                 auto tmp = *freeNode;
@@ -148,9 +149,10 @@ bool OS::nextFit(PTNNode &bind, int size) {
 bool OS::bestFit(PTNNode &bind, int size) {
     const int MAX = std::numeric_limits<int>::max();
     int max = MAX;
-    PTNList::iterator minNodeIter = _searchIter;
+    PTNList::iterator minNodeIter;
 
     for (auto iter = _free.begin(); iter != _free.end(); iter++) {
+
         if (iter->size() > size && iter->size() < max) {
             max = iter->size();
             minNodeIter = iter;
@@ -159,7 +161,9 @@ bool OS::bestFit(PTNNode &bind, int size) {
     if (max == MAX) {
         return false;
     }
-    bind = {*minNodeIter};
+    bind = PTNNode{*minNodeIter};
+    minNodeIter->divide(size);
+    _searchIter = minNodeIter;
     return true;
 
 }
@@ -179,6 +183,8 @@ bool OS::worstFit(PTNNode &bind, int size) {
         return false;
     }
     bind = {*maxNodeIter};
+    maxNodeIter->divide(size);
+    _searchIter = maxNodeIter;
     return true;
 
 }

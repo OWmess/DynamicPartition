@@ -4,13 +4,14 @@
 
 #ifndef DYNAMICPARITION_ERRORMESSAGE_H
 #define DYNAMICPARITION_ERRORMESSAGE_H
+
 #include <qerrormessage.h>
 
-class ErrorMessage:QErrorMessage
-{
+class ErrorMessage : QErrorMessage {
 public:
-    ErrorMessage()=delete;
-    static void msg(QString str,QWidget *parent){
+    ErrorMessage() = delete;
+
+    static void msg(QString str, QWidget *parent) {
         std::unique_ptr<QErrorMessage> qmsg(new QErrorMessage(parent));
         qmsg->showMessage(str);
         qmsg->exec();
@@ -18,4 +19,5 @@ public:
 
 
 };
+
 #endif //DYNAMICPARITION_ERRORMESSAGE_H
