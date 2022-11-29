@@ -7,7 +7,7 @@
 #include <iostream>
 #include "OS.h"
 #include <memory>
-#include "./ui/Widget.h"
+#include "ui/Widget/Widget.h"
 
 #define MAXSIZE 1024
 using namespace std;
@@ -40,9 +40,9 @@ int main(int argc, char *argv[]) {
 
 //    start:
 //    {
-//        OS os(MAXSIZE);
+//        OS _os(MAXSIZE);
 
-//        if(!os.createPartition())
+//        if(!_os.createPartition())
 //            goto start;
 //
 //        while(true){
@@ -60,16 +60,16 @@ int main(int argc, char *argv[]) {
 //                cin >> choose;
 //                switch (choose) {
 //                    case 1:
-//                        os.dividePartition(200, FIRST_FIT);
+//                        _os.dividePartition(200, FIRST_FIT);
 //                        break;
 //                    case 2:
-//                        os.dividePartition(200, NEXT_FIT);
+//                        _os.dividePartition(200, NEXT_FIT);
 //                        break;
 //                    case 3:
-//                        os.dividePartition(200, BEST_FIT);
+//                        _os.dividePartition(200, BEST_FIT);
 //                        break;
 //                    case 4:
-//                        os.dividePartition(200, WORST_FIT);
+//                        _os.dividePartition(200, WORST_FIT);
 //                        break;
 //                    case 5:
 //                        break;

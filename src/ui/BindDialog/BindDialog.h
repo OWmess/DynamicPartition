@@ -2,7 +2,7 @@
 #define BINDDIALOG_H
 
 #include <QDialog>
-#include "../OS.h"
+#include "../../OS.h"
 
 namespace Ui {
     class BindDialog;

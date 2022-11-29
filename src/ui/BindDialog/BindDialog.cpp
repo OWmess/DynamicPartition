@@ -1,7 +1,7 @@
 #include <QIntValidator>
 #include "BindDialog.h"
 #include "ui_BindDialog.h"
-#include "ErrorMessage.h"
+#include "../ErrorMessage.h"
 
 BindDialog::BindDialog(QWidget *parent) :
         QDialog(parent),
@@ -42,6 +42,10 @@ void BindDialog::worstFitSlot() {
 
 void BindDialog::fitExec(ALGO mode) {
     int size = _ui->lineEdit->text().toInt();
+    qDebug("input size :  %d \n",size);
+    if(size==0){
+        ErrorMessage::msg("最小值为1!", this);
+    }
     if (!_os->dividePartition(size, mode)) {
         ErrorMessage::msg("分配失败", this);
     }

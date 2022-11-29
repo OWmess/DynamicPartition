@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>分配</string>
   </property>
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
@@ -33,7 +33,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>FirstFit</string>
+    <string>首次适应</string>
    </property>
   </widget>
   <widget class="QPushButton" name="nextFitButton">
@@ -46,7 +46,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>NextFit</string>
+    <string>下次适应</string>
    </property>
   </widget>
   <widget class="QPushButton" name="bestFitButton">
@@ -59,7 +59,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>BestFit</string>
+    <string>最佳适应</string>
    </property>
   </widget>
   <widget class="QPushButton" name="worstFitButton">
@@ -72,7 +72,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>WorstFit</string>
+    <string>最坏适应</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -80,8 +80,8 @@
     <rect>
      <x>130</x>
      <y>40</y>
-     <width>72</width>
-     <height>15</height>
+     <width>90</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="font">
@@ -91,7 +91,7 @@
     </font>
    </property>
    <property name="text">
-    <string>size</string>
+    <string>作业大小</string>
    </property>
   </widget>
  </widget>

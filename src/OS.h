@@ -5,7 +5,7 @@
 #define DYNAMICPARITION_OS_H
 
 #include "PartitionNode.h"
-
+#include <map>
 typedef enum {
     FIRST_FIT = 0,
     NEXT_FIT,
@@ -34,12 +34,17 @@ public:
         return _bind;
     }
 
+    [[nodiscard]] std::map<int,PTNList> getQFList() const{
+        return _quickFitList;
+    }
     bool mergePartition(int begin);
 
     bool dividePartition(int size, ALGO mode);
 
-private:
+    void quickFitInit();
 
+    bool quickFit(int size);
+private:
 
     bool divideFree(int size, ALGO mode, PTNNode &bindNode);
 
@@ -71,7 +76,7 @@ private:
     PTNList _bind;
 
     PTNList::iterator _searchIter = _free.begin();
-
+    std::map<int,PTNList> _quickFitList;
 };
 
 

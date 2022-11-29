@@ -1,7 +1,7 @@
 #include <QIntValidator>
 #include "FreeDialog.h"
 #include "ui_FreeDialog.h"
-#include "ErrorMessage.h"
+#include "../ErrorMessage.h"
 FreeDialog::FreeDialog(QWidget *parent) :
         QDialog(parent),
         _ui(new Ui::FreeDialog) {

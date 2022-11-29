@@ -1,8 +1,8 @@
 #include "InitDialog.h"
-#include "ui_InitDialog.h"
+#include "ui_initdialog.h"
 #include <QDebug>
 #include <QIntValidator>
-#include "ErrorMessage.h"
+#include "../ErrorMessage.h"
 
 InitDialog::InitDialog(QWidget *parent) :
         QDialog(parent),

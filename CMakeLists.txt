@@ -16,7 +16,7 @@ find_package(Qt5 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(${PROJECT_NAME} src/main.cpp src/OS.cpp src/ui/Widget.cpp src/ui/Widget.h src/ui/Widget.ui src/ui/InitDialog.cpp src/ui/InitDialog.h src/ui/InitDialog.ui src/ui/FreeDialog.cpp src/ui/FreeDialog.h src/ui/FreeDialog.ui src/ui/BindDialog.cpp src/ui/BindDialog.h src/ui/BindDialog.ui)
+add_executable(${PROJECT_NAME} src/main.cpp src/OS.cpp src/ui/Widget/Widget.cpp src/ui/Widget/Widget.h src/ui/Widget/Widget.ui src/ui/InitDialog/InitDialog.cpp src/ui/InitDialog/InitDialog.h src/ui/InitDialog/InitDialog.ui src/ui/FreeDialog/FreeDialog.cpp src/ui/FreeDialog/FreeDialog.h src/ui/FreeDialog/FreeDialog.ui src/ui/BindDialog/BindDialog.cpp src/ui/BindDialog/BindDialog.h src/ui/BindDialog/BindDialog.ui src/ui/QuickFitDialog/QuickFitDialog.cpp src/ui/QuickFitDialog/QuickFitDialog.ui)
 target_link_libraries(${PROJECT_NAME}
         Qt5::Core
         Qt5::Gui

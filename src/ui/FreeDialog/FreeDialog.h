@@ -2,7 +2,7 @@
 #define MAINDIALOG_H
 
 #include <QDialog>
-#include "../OS.h"
+#include "../../OS.h"
 
 namespace Ui {
     class FreeDialog;

@@ -212,3 +212,58 @@ bool OS::mergePartition(int begin) {
 
 }
 
+void OS::quickFitInit() {
+    _free.clear();
+    bool firstFlag=true;
+    int index=1;
+    auto iter=_free.begin();
+    for(int mi = _maxSize;mi>0;mi/=2){
+        if(firstFlag){
+            firstFlag=false;
+            _free.push_back({1,1});
+        }else{
+            int begin=_free.back()._end;
+            _free.push_back({begin+1,begin+index});
+        }
+        _quickFitList.insert(make_pair(index,PTNList{_free.back()}));
+        index*=2;
+        if(index==_maxSize)
+            break;
+    }
+
+}
+
+bool OS::quickFit(int size) {
+    int index=1;
+    for(int mi = _maxSize;mi>0;mi/=2){
+        if(index>=size)
+            break;
+        index*=2;
+        if(index==_maxSize)
+            break;
+    }
+    if(!_quickFitList[index].empty()){
+        PTNNode node={*_quickFitList[index].begin()};
+        _bind.emplace_back(node);
+        _quickFitList[index].pop_front();
+    }else{
+        int i=index*2;
+        index*=2;
+        for(;i<=512;i*=2){
+            if(!_quickFitList[i].empty()){
+                PTNNode node={*_quickFitList[i].begin()};
+                _quickFitList[i].pop_front();
+                PTNNode node1={node._begin,node._begin+i/2-1};
+                PTNNode node2={node._begin+i/2,node._end};
+                _quickFitList[i].emplace_back(node1);
+                _bind.emplace_back(node2);
+                break;
+            }
+
+        }
+    }
+
+
+
+}
+

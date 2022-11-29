@@ -2,7 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
-#include "../OS.h"
+#include "../../OS.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -35,9 +35,16 @@ private slots:
 
     void freeDialog();
 
+    void quickFitSlot();
 private:
     Ui::Widget *_ui;
     OS *_os;
+
+
+    const int _w = 1024;
+    const int _h = 300;
+    const int _x = 70;
+    const int _y = 100;
 };
 
 #endif // WIDGET_H
