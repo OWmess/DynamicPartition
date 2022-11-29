@@ -3,15 +3,13 @@
 //
 
 #include "OS.h"
-#include <iostream>
 #include <limits>
 #include <QDebug>
 
 using namespace std;
 
-OS::OS(int maxSize) : _maxSize(maxSize - 1) {
+OS::OS(int maxSize) : _maxSize(maxSize) {
     _free.push_back({0, _maxSize});
-    _bind.push_back({0, 0});
 }
 
 bool OS::createPartition(int start, int end) {
@@ -22,7 +20,6 @@ bool OS::createPartition(int start, int end) {
         qDebug() << "输入的作业地址有误,地址最大值为 " << _maxSize << Qt::endl;
         return false;
     }
-
     return true;
 }
 
@@ -31,7 +28,9 @@ bool OS::dividePartition(int size, ALGO mode) {
 
     PTNNode bindNode{0, 0};
     if (divideFree(size, mode, bindNode)) {
-        mergeBind(_bind, bindNode);
+        _bind.emplace_back(bindNode);
+        sortList();
+
         return true;
     }
     return false;
@@ -53,6 +52,7 @@ bool OS::divideFree(int size, ALGO mode, PTNNode &bindNode) {
             divideFlag = worstFit(bindNode, size);
             break;
         case QUICK_FIT:
+
             break;
         default:
             break;
@@ -62,17 +62,6 @@ bool OS::divideFree(int size, ALGO mode, PTNNode &bindNode) {
 
 }
 
-void OS::mergeBind(PTNList &list, PTNNode node) {
-    auto it = list.begin();
-    for (; it != list.end(); it++) {
-        if (it->mergeNode(node))
-            break;
-    }
-    if (it == list.end()) {
-        list.push_back(node);
-    }
-
-}
 
 bool OS::initPartition(PTNList initList) {
     auto initNode = initList.begin();
@@ -94,8 +83,7 @@ bool OS::initPartition(PTNList initList) {
                     _free.push_back({tmp._begin, initNode->_begin - 1});
                 }
                 //添加占用表
-                mergeBind(_bind, *initNode);
-
+                _bind.push_back({initNode->_begin,initNode->_end});
                 break;
             }
         }
@@ -113,7 +101,7 @@ bool OS::firstFit(PTNNode &bind, int size) {
     for (auto it = _free.begin(); it != _free.end(); it++) {
 
         if (it->size() > size) {
-            bind = {it->_begin, it->_begin + size};
+            bind = {it->_begin+1, it->_begin + size};
             it->divide(size);
             _searchIter = it;
 
@@ -130,9 +118,8 @@ bool OS::nextFit(PTNNode &bind, int size) {
         if (tmpIter == _free.end()) {
             tmpIter = _free.begin();
         }
-        //TODO 先暂时从上次iter开始搜索
         if (tmpIter->size() > size) {
-            bind = {tmpIter->_begin, tmpIter->_begin + size};
+            bind = {tmpIter->_begin+1, tmpIter->_begin + size};
             tmpIter->divide(size);
             _searchIter = tmpIter;
             return true;
@@ -161,7 +148,7 @@ bool OS::bestFit(PTNNode &bind, int size) {
     if (max == MAX) {
         return false;
     }
-    bind = PTNNode{*minNodeIter};
+    bind = PTNNode{minNodeIter->_begin+1,minNodeIter->_begin+size};
     minNodeIter->divide(size);
     _searchIter = minNodeIter;
     return true;
@@ -182,10 +169,46 @@ bool OS::worstFit(PTNNode &bind, int size) {
     if (min == MIN) {
         return false;
     }
-    bind = {*maxNodeIter};
+    bind = {maxNodeIter->_begin+1,maxNodeIter->_begin+size};
     maxNodeIter->divide(size);
     _searchIter = maxNodeIter;
     return true;
+
+}
+
+bool OS::mergePartition(int begin) {
+    auto iter=std::find(_bind.begin(), _bind.end(),begin);
+    if(iter==_bind.end()){
+        return false;
+    }
+    auto piter=_free.begin();
+    for(; piter != _free.end(); piter++){
+        if(piter->mergeNode(*iter)){
+            break;
+        }
+    }
+    if(piter == _free.end())
+        _free.push_back({*iter});
+
+    sortList();
+
+    //合并相邻空闲分区
+    PTNList::iterator tmpIt;
+    for(auto it=_free.begin();it!=_free.end();it++){
+        tmpIt=it;
+        if(it->_end==(++tmpIt)->_begin){
+            it->_end=tmpIt->_end;
+            it->_size=it->_end-it->_begin+1;
+            _free.erase(tmpIt);
+            break;
+        }
+    }
+
+    *iter=PTNNode{0,0};
+
+    return true;
+
+
 
 }
 

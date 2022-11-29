@@ -1,3 +1,4 @@
+#include <QIntValidator>
 #include "BindDialog.h"
 #include "ui_BindDialog.h"
 #include "ErrorMessage.h"
@@ -6,11 +7,12 @@ BindDialog::BindDialog(QWidget *parent) :
         QDialog(parent),
         _ui(new Ui::BindDialog) {
     _ui->setupUi(this);
+    _ui->lineEdit->setValidator(new QIntValidator(_ui->lineEdit));
     connect(_ui->firstFitButton, &QPushButton::clicked, this, &BindDialog::firstFitSlot);
     connect(_ui->nextFitButton, &QPushButton::clicked, this, &BindDialog::nextFitSlot);
     connect(_ui->bestFitButton, &QPushButton::clicked, this, &BindDialog::bestFitSlot);
     connect(_ui->worstFitButton, &QPushButton::clicked, this, &BindDialog::worstFitSlot);
-    connect(_ui->quickFitButton, &QPushButton::clicked, this, &BindDialog::quickFitSlot);
+
 }
 
 BindDialog::~BindDialog() {
@@ -37,9 +39,6 @@ void BindDialog::worstFitSlot() {
     fitExec(WORST_FIT);
 }
 
-void BindDialog::quickFitSlot() {
-    fitExec(QUICK_FIT);
-}
 
 void BindDialog::fitExec(ALGO mode) {
     int size = _ui->lineEdit->text().toInt();

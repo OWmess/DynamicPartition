@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>265</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,19 +73,6 @@
    </property>
    <property name="text">
     <string>WorstFit</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="quickFitButton">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>260</y>
-     <width>110</width>
-     <height>35</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>QuickFit</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">

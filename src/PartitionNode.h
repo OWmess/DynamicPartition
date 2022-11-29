@@ -31,12 +31,12 @@ public:
      * @param newNode 新节点
      * @return 合并失败返回false
      */
-    bool mergeNode(PartitionNode newNode) {
-        if (this->_begin == newNode._end) {
+    bool mergeNode(const PartitionNode &newNode) {
+        if (this->_begin==newNode._end+1) {
             this->_begin = newNode._begin;
             _size = _end - _begin + 1;
             return true;
-        } else if (this->_end == newNode._begin) {
+        } else if (this->_end == newNode._begin-1) {
             this->_end = newNode._end;
             _size = _end - _begin + 1;
             return true;
@@ -51,7 +51,7 @@ public:
      */
     int divideNode(PartitionNode divideNode) {
         if (this->_begin == divideNode._begin) {///空闲区在尾段
-            this->_begin = divideNode._end + 1;
+            this->_begin = divideNode._end;
             _size = _end - _begin + 1;
             JUDGE_SIZE(_size);
             return 1;
@@ -61,7 +61,7 @@ public:
             JUDGE_SIZE(_size);
             return 2;
         } else {///空闲区在两边
-            this->_begin = divideNode._end + 1;
+            this->_begin = divideNode._end;
             _size = _end - _begin + 1;
             JUDGE_SIZE(_size);
             return 3;
@@ -79,6 +79,10 @@ public:
 
     bool operator<(PartitionNode node2) const {
         return this->_begin < node2._begin;
+    }
+
+    bool operator==(int n) const{
+        return this->_begin==n;
     }
 
     int _begin;

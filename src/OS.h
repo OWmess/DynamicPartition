@@ -34,12 +34,7 @@ public:
         return _bind;
     }
 
-/**
- *
- * @tparam Comp
- * @param size 待分配大小
- * @param comp 分区算法
- */
+    bool mergePartition(int begin);
 
     bool dividePartition(int size, ALGO mode);
 
@@ -47,8 +42,6 @@ private:
 
 
     bool divideFree(int size, ALGO mode, PTNNode &bindNode);
-
-    static void mergeBind(PTNList &list, PTNNode node);
 
     /**
      * 初始化分区
@@ -67,7 +60,7 @@ private:
 
     inline void sortList() {
         _free.sort();
-        _bind.sort();
+//        _bind.sort();
     }
 
 private:

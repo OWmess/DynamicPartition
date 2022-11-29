@@ -31,8 +31,6 @@ private slots:
 
     void worstFitSlot();
 
-    void quickFitSlot();
-
 private:
     Ui::BindDialog *_ui;
     OS *_os;

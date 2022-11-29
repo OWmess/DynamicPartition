@@ -17,7 +17,8 @@ public:
     FreeDialog(OS *os, QWidget *parent = nullptr);
 
     ~FreeDialog();
-
+private slots:
+    void acceptSlot();
 private:
     Ui::FreeDialog *_ui;
     OS *_os;

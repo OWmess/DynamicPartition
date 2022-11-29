@@ -5,7 +5,8 @@
 #include "FreeDialog.h"
 #include <QPainter>
 #include <QLabel>
-
+#include <QListView>
+#include <QStringListModel>
 Widget::Widget(QWidget *parent)
         : QWidget(parent), _ui(new Ui::Widget) {
     _ui->setupUi(this);
@@ -46,8 +47,8 @@ void Widget::paintEvent(QPaintEvent *) {
     const QPoint br = {x + w, y + h};
 
     painter.fillRect(QRect{tl, br}, QBrush(Qt::green));
-    for (const auto free: _os->getFree()) {
-        painter.fillRect(QRect{QPoint{x + free._begin, y}, QSize{free._size + 1, h + 1}}, QBrush(Qt::darkGray));
+    for (const auto bind: _os->getBind()) {
+        painter.fillRect(QRect{QPoint{x + bind._begin, y}, QSize{bind._size + 1, h + 1}}, QBrush(Qt::darkGray));
     }
 
 
@@ -63,15 +64,35 @@ void Widget::paintEvent(QPaintEvent *) {
 
     };
 
-    drawNumber(0, 0, this);
+    drawNumber(1, 0, this);
     painter.drawRect(QRect{tl, br});
     for (int i = 1; i <= 10; i++) {
         drawNumber(i * 100, i * 100, this);
         painter.drawLine(QPoint(x + 100 * i, y), QPoint(x + 100 * i, y + h));
     }
-    drawNumber(1023, 1050, this);
+    drawNumber(1024, 1050, this);
 
+    _ui->listView->reset();
+    QStringList list;
+    int i=0;
+    for(const auto bind:_os->getBind()){
+        if(bind._begin==0&&bind._end==0)
+            continue;
+        QString str="thread "+QString::number(i)+" :["+QString::number(bind._begin)+","+QString::number(bind._end)+"]";
+        list.append(str);
+        i++;
+    }
 
+//    for(const auto bind:_os->getFree()){
+//        if(bind._begin==0&&bind._end==0)
+//            continue;
+//        QString str="test "+QString::number(i)+" ：["+QString::number(bind._begin)+","+QString::number(bind._end)+"]";
+//        list.append(str);
+//        i++;
+//    }
+
+    QStringListModel *listmodel = new QStringListModel(list);
+    _ui->listView->setModel(listmodel);
 }
 
 

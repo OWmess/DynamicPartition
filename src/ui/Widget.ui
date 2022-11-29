@@ -1,58 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>Widget</class>
-    <widget class="QWidget" name="Widget">
-        <property name="geometry">
-            <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>1200</width>
-                <height>600</height>
-            </rect>
-        </property>
-        <property name="windowTitle">
-            <string>内存可变分区分配仿真</string>
-        </property>
-        <widget class="QPushButton" name="initButton">
-            <property name="geometry">
-                <rect>
-                    <x>140</x>
-                    <y>480</y>
-                    <width>190</width>
-                    <height>70</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>init</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" name="bindButton">
-            <property name="geometry">
-                <rect>
-                    <x>470</x>
-                    <y>480</y>
-                    <width>190</width>
-                    <height>80</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>bind</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" name="freeButton">
-            <property name="geometry">
-                <rect>
-                    <x>810</x>
-                    <y>480</y>
-                    <width>190</width>
-                    <height>80</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>free</string>
-            </property>
-        </widget>
-    </widget>
-    <resources/>
-    <connections/>
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>850</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>内存可变分区分配仿真</string>
+  </property>
+  <widget class="QPushButton" name="initButton">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>460</y>
+     <width>190</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>init</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="bindButton">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>460</y>
+     <width>190</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>bind</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="freeButton">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>460</y>
+     <width>190</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>free</string>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>550</y>
+     <width>900</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="isWrapping" stdset="0">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>970</x>
+     <y>460</y>
+     <width>190</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(182, 182, 182);</string>
+   </property>
+   <property name="text">
+    <string>QuickFit</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
 </ui>
