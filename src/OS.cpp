@@ -5,11 +5,13 @@
 #include "OS.h"
 #include <limits>
 #include <QDebug>
+#include <algorithm>
+#include <cmath>
 
 using namespace std;
 
 OS::OS(int maxSize) : _maxSize(maxSize) {
-    _free.push_back({0, _maxSize});
+    _free.push_back({1, _maxSize});
 }
 
 bool OS::createPartition(int start, int end) {
@@ -83,7 +85,7 @@ bool OS::initPartition(PTNList initList) {
                     _free.push_back({tmp._begin, initNode->_begin - 1});
                 }
                 //添加占用表
-                _bind.push_back({initNode->_begin,initNode->_end});
+                _bind.push_back({initNode->_begin, initNode->_end});
                 break;
             }
         }
@@ -101,7 +103,7 @@ bool OS::firstFit(PTNNode &bind, int size) {
     for (auto it = _free.begin(); it != _free.end(); it++) {
 
         if (it->size() > size) {
-            bind = {it->_begin+1, it->_begin + size};
+            bind = {it->_begin, it->_begin + size};
             it->divide(size);
             _searchIter = it;
 
@@ -119,7 +121,7 @@ bool OS::nextFit(PTNNode &bind, int size) {
             tmpIter = _free.begin();
         }
         if (tmpIter->size() > size) {
-            bind = {tmpIter->_begin+1, tmpIter->_begin + size};
+            bind = {tmpIter->_begin, tmpIter->_begin + size};
             tmpIter->divide(size);
             _searchIter = tmpIter;
             return true;
@@ -148,7 +150,7 @@ bool OS::bestFit(PTNNode &bind, int size) {
     if (max == MAX) {
         return false;
     }
-    bind = PTNNode{minNodeIter->_begin+1,minNodeIter->_begin+size};
+    bind = PTNNode{minNodeIter->_begin, minNodeIter->_begin + size};
     minNodeIter->divide(size);
     _searchIter = minNodeIter;
     return true;
@@ -169,7 +171,7 @@ bool OS::worstFit(PTNNode &bind, int size) {
     if (min == MIN) {
         return false;
     }
-    bind = {maxNodeIter->_begin+1,maxNodeIter->_begin+size};
+    bind = {maxNodeIter->_begin, maxNodeIter->_begin + size};
     maxNodeIter->divide(size);
     _searchIter = maxNodeIter;
     return true;
@@ -177,93 +179,129 @@ bool OS::worstFit(PTNNode &bind, int size) {
 }
 
 bool OS::mergePartition(int begin) {
-    auto iter=std::find(_bind.begin(), _bind.end(),begin);
-    if(iter==_bind.end()){
+    auto iter = std::find(_bind.begin(), _bind.end(), begin);
+    if (iter == _bind.end()) {
         return false;
     }
-    auto piter=_free.begin();
-    for(; piter != _free.end(); piter++){
-        if(piter->mergeNode(*iter)){
+    auto piter = _free.begin();
+    for (; piter != _free.end(); piter++) {
+        if (piter->mergeNode(*iter)) {
             break;
         }
     }
-    if(piter == _free.end())
+    if (piter == _free.end())
         _free.push_back({*iter});
 
     sortList();
 
     //合并相邻空闲分区
     PTNList::iterator tmpIt;
-    for(auto it=_free.begin();it!=_free.end();it++){
-        tmpIt=it;
-        if(it->_end==(++tmpIt)->_begin){
-            it->_end=tmpIt->_end;
-            it->_size=it->_end-it->_begin+1;
+    for (auto it = _free.begin(); it != _free.end(); it++) {
+        tmpIt = it;
+        if (it->_end == (++tmpIt)->_begin) {
+            it->_end = tmpIt->_end;
+            it->_size = it->_end - it->_begin + 1;
             _free.erase(tmpIt);
             break;
         }
     }
 
-    *iter=PTNNode{0,0};
+    *iter = PTNNode{0, 0};
 
     return true;
-
 
 
 }
 
 void OS::quickFitInit() {
     _free.clear();
-    bool firstFlag=true;
-    int index=1;
-    auto iter=_free.begin();
-    for(int mi = _maxSize;mi>0;mi/=2){
-        if(firstFlag){
-            firstFlag=false;
-            _free.push_back({1,1});
-        }else{
-            int begin=_free.back()._end;
-            _free.push_back({begin+1,begin+index});
+    bool firstFlag = true;
+    int index = 1;
+    auto iter = _free.begin();
+    for (int mi = _maxSize; mi > 0; mi /= 2) {
+        if (firstFlag) {
+            firstFlag = false;
+            _free.push_back({1, 1});
+        } else {
+            int begin = _free.back()._end;
+            _free.push_back({begin + 1, begin + index});
         }
-        _quickFitList.insert(make_pair(index,PTNList{_free.back()}));
-        index*=2;
-        if(index==_maxSize)
+        _quickFitList.insert(make_pair(index, PTNList{_free.back()}));
+        index *= 2;
+        if (index == _maxSize)
             break;
     }
 
 }
 
 bool OS::quickFit(int size) {
-    int index=1;
-    for(int mi = _maxSize;mi>0;mi/=2){
-        if(index>=size)
+    int index = 1;
+    for (int mi = _maxSize; mi > 0; mi /= 2) {
+        if (index >= size)
             break;
-        index*=2;
-        if(index==_maxSize)
+        index *= 2;
+        if (index == _maxSize)
             break;
     }
-    if(!_quickFitList[index].empty()){
-        PTNNode node={*_quickFitList[index].begin()};
+
+    if (!_quickFitList[index].empty()) {
+        qDebug() << "! empty" << Qt::endl;
+        PTNNode node = {*_quickFitList[index].begin()};
         _bind.emplace_back(node);
         _quickFitList[index].pop_front();
-    }else{
-        int i=index*2;
-        index*=2;
-        for(;i<=512;i*=2){
-            if(!_quickFitList[i].empty()){
-                PTNNode node={*_quickFitList[i].begin()};
-                _quickFitList[i].pop_front();
-                PTNNode node1={node._begin,node._begin+i/2-1};
-                PTNNode node2={node._begin+i/2,node._end};
-                _quickFitList[i].emplace_back(node1);
-                _bind.emplace_back(node2);
+    } else {
+        qDebug() << "empty" << Qt::endl;
+        int i = index * 2;
+//        index*=2;
+        qDebug() << "index=" << index << Qt::endl;
+        bool foundFlag=false;
+        for (; i <= _maxSize/2; i *= 2) {
+
+            qDebug() << "i = " << i << Qt::endl;
+            if (!_quickFitList[i].empty()) {
+                int num=log2(i)-log2(index);
+                PTNNode node1;
+                PTNNode node2;
+                for (int j= 1; j <= num; j++) {
+
+                    PTNNode node = {*_quickFitList[i].begin()};
+                    _quickFitList[i].pop_front();
+                    node1 = {node._begin, node._begin + i / 2 - 1};
+                    node2 = {node._begin + i / 2, node._end};
+                    _quickFitList[i/2].push_back(node1);
+                    _quickFitList[i/2].push_back(node2);
+                    i/=2;
+
+                }
+                _quickFitList[index].pop_back();
+                _bind.push_back(node2);
+//                PTNNode node={*_quickFitList[i].begin()};
+//                _quickFitList[i].pop_front();
+//                PTNNode node1={node._begin,node._begin+i/2-1};
+//                PTNNode node2={node._begin+i/2,node._end};
+//                _quickFitList[i-1].emplace_back(node1);
+//
+//                _bind.emplace_back(node2);
+                foundFlag=true;
                 break;
             }
 
         }
+        if(!foundFlag)
+            return false;
+    }
+    ///在控制台输出调试信息
+    for(const auto& i:this->_quickFitList){
+        int x=0;
+        for(const auto j:i.second){
+            qDebug(" free LinkList <%d,%d>  begin: %d , end: %d \n",i.first,x++,j._begin,j._end );
+        }
+//        painter.drawLine(QPoint(_x + bind._begin, _y), QPoint(_x + bind._begin, _y + _h));
+    }
+    for(const auto& i:this->_bind){
+        qDebug("BindList  begin: %d , end: %d ",i._begin,i._end);
     }
 
-
-
+    return true;
 }
 

@@ -11,7 +11,7 @@
 
 class PartitionNode {
 public:
-    PartitionNode() = delete;
+    PartitionNode() = default;
 
     /**
      * 节点构造函数
@@ -51,7 +51,7 @@ public:
      */
     int divideNode(PartitionNode divideNode) {
         if (this->_begin == divideNode._begin) {///空闲区在尾段
-            this->_begin = divideNode._end;
+            this->_begin = divideNode._end+1;
             _size = _end - _begin + 1;
             JUDGE_SIZE(_size);
             return 1;
@@ -61,7 +61,7 @@ public:
             JUDGE_SIZE(_size);
             return 2;
         } else {///空闲区在两边
-            this->_begin = divideNode._end;
+            this->_begin = divideNode._end+1;
             _size = _end - _begin + 1;
             JUDGE_SIZE(_size);
             return 3;
@@ -73,7 +73,7 @@ public:
      * @param n 占用的大小
      */
     void divide(int n) {
-        _begin += n;
+        _begin += n+1;
         _size -= n;
     }
 

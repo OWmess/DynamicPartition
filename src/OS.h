@@ -69,6 +69,7 @@ private:
     }
 
 private:
+    //必须是2的指数
     int _maxSize;
     ///空闲表
     PTNList _free;
