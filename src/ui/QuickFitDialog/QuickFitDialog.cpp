@@ -93,7 +93,7 @@ void QuickFitDialog::paintEvent(QPaintEvent *) {
     _ui->bindView->reset();
     QStringList freeList;
     QStringList bindList;
-
+    //已分配作业显示
     int i=0;
     for(const auto bind:_os->getBind()){
         if(bind._begin==0&&bind._end==0)
@@ -102,7 +102,7 @@ void QuickFitDialog::paintEvent(QPaintEvent *) {
         bindList.append(str);
         i++;
     }
-
+    //空闲分区显示
     for(const auto& free:_os->getQFList()){
         QString str1=QString::number(free.first)+":";
         freeList.append(str1);

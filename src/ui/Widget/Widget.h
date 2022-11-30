@@ -40,7 +40,7 @@ private:
     Ui::Widget *_ui;
     OS *_os;
 
-
+    //内存矩形框的rect参数
     const int _w = 1024;
     const int _h = 300;
     const int _x = 70;

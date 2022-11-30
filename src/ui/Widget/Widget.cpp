@@ -77,7 +77,7 @@ void Widget::paintEvent(QPaintEvent *) {
     painter.fillRect(QRect{10, 10,20,20},QBrush(Qt::green));
     painter.fillRect(QRect{110, 10,20,20},QBrush(Qt::darkGray));
 
-    //颜色填充
+    //绿色填充
     painter.fillRect(QRect{tl, br}, QBrush(Qt::green));
     for (const auto bind: _os->getBind()) {
         painter.fillRect(QRect{QPoint{_x + bind._begin, _y}, QSize{bind._size + 1, _h + 1}}, QBrush(Qt::darkGray));
@@ -88,14 +88,14 @@ void Widget::paintEvent(QPaintEvent *) {
         painter.drawLine(QPoint(_x + 100 * i, _y), QPoint(_x + 100 * i, _y + _h));
     }
 
-    //显示进程
+    //显示作业
     _ui->listView->reset();
     QStringList list;
     int i=0;
     for(const auto bind:_os->getBind()){
         if(bind._begin==0&&bind._end==0)
             continue;
-        QString str="thread "+QString::number(i)+" :["+QString::number(bind._begin)+","+QString::number(bind._end)+"]";
+        QString str="作业 "+QString::number(i)+" :["+QString::number(bind._begin)+","+QString::number(bind._end)+"]";
         list.append(str);
         i++;
     }

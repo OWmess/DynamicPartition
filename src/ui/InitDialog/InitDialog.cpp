@@ -26,6 +26,5 @@ void InitDialog::acceptSlot() {
     int end = _ui->endEdit->text().toInt();
     if (!_os->createPartition(start, end)) {
         ErrorMessage::msg("输入的作业地址有误", this);
-
     }
 }
